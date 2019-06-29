@@ -11,23 +11,25 @@ var connection = mysql.createConnection({
 
   connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+    // console.log("connected as id " + connection.threadId);
     displayItems();
     
   });
 
 function displayItems() {
-    console.log("Selecting all products...\n");
+    console.log("\nId" + " | " + "Product" + " | " + "Department" + " | " + "Price" + " | " + "Quantity")
+    console.log("-----------------------------------");
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
-          }
+            console.log(
+            res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
+            }
           console.log("-----------------------------------");
         });
-    askBuyer();
-}
+    
+} askBuyer();
 
 function askBuyer() {
     inquirer
@@ -65,15 +67,15 @@ function askBuyer() {
                 if (chosenItem[0].stock_quantity - itemQuantity >= 0) {
                     var total = itemQuantity * chosenItem[0].price;
                     console.log('You will be charged $' + total + '. Thank you!');
-                    connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?", [chosenItem[0].stock_quantity - itemQuantity, itemID],
-                    function(err, inventory) {
+                    connection.query('UPDATE products SET stock_quantity=? WHERE item_id=?', [chosenItem[0].stock_quantity - itemQuantity, itemID],
+                    function(err) {
                         if (err) throw err;
-                        // orderAgain();
+                        startOver();
                     })
                     } else {
                         console.log("Insufficient quantity.  Please adjust your order, we only have " + chosenItem[0].stock_quanity + "of " + chosenItem[0].product_name + "in stock.");
-                        // orderAgain();
-                        connection.end();
+                        startOver();
+                        
                     }
                     
                 })
@@ -81,5 +83,27 @@ function askBuyer() {
         })
         
     }
+
+    function startOver() {
+        inquirer
+        .prompt ([
+        {
+            name: "startOver",
+            type: "list",
+            choices: ["Yes", "No"],
+            message: "Would you like to place another order?"
+
+        }
+        ]).then(function(response) {
+            if (response.startOver === "Yes") {
+                displayItems();
+            } else {
+                console.log("Thank you and have a great day!")
+                connection.end();
+            }
+        })
+    }
+
+    
 
 
