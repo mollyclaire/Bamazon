@@ -13,8 +13,7 @@ var connection = mysql.createConnection({
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
     displayItems();
-    askBuyer();
-    connection.end();
+    
   });
 
 function displayItems() {
@@ -27,7 +26,7 @@ function displayItems() {
           }
           console.log("-----------------------------------");
         });
-    
+    askBuyer();
 }
 
 function askBuyer() {
@@ -56,7 +55,31 @@ function askBuyer() {
           }
       }
     ]).then(function(response) {
-        var chosenItem;
-    })
-}
+        var itemID = response.id;
+        var itemQuantity = response.quantity;
+        connection.query("SELECT * FROM products WHERE ?", [{
+            item_id: itemID
+        }],
+            function(err, chosenItem) {
+                if (err) throw err;
+                if (chosenItem[0].stock_quantity - itemQuantity >= 0) {
+                    var total = itemQuantity * chosenItem[0].price;
+                    console.log('You will be charged $' + total + '. Thank you!');
+                    connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?", [chosenItem[0].stock_quantity - itemQuantity, itemID],
+                    function(err, inventory) {
+                        if (err) throw err;
+                        // orderAgain();
+                    })
+                    } else {
+                        console.log("Insufficient quantity.  Please adjust your order, we only have " + chosenItem[0].stock_quanity + "of " + chosenItem[0].product_name + "in stock.");
+                        // orderAgain();
+                        connection.end();
+                    }
+                    
+                })
+        
+        })
+        
+    }
+
 
