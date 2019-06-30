@@ -52,7 +52,7 @@ function askBuyer() {
         validate: function(value) {
             if (isNaN(value) === false) {
               return true;
-            }
+            } 
             return false;
           }
       }
@@ -97,6 +97,7 @@ function askBuyer() {
         ]).then(function(response) {
             if (response.startOver === "Yes") {
                 displayItems();
+                askBuyer();
             } else {
                 console.log("Thank you and have a great day!")
                 connection.end();
