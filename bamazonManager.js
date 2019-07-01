@@ -121,18 +121,20 @@ function addInventory() {
                 }
             }
         ]).then(function (response) {
-            var itemQuantity = response.quantity;
-            var itemID = response.id;
+            var itemQuantity = parseInt(response.quantity);
+            var itemID = parseInt(response.id);
+            
             // Changing the quantity in the database where the manager specifies (id).
             connection.query("SELECT * FROM products WHERE ?", [{
                 item_id: itemID
             }],
                 function (err, chosenItem) {
                     if (err) throw err;
-                    connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?", [chosenItem[0].stock_quantity + itemQuantity, itemID],
+                    var newQuantity = chosenItem[0].stock_quantity + itemQuantity;
+                    connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?", [newQuantity, itemID],
                         function (err) {
                             if (err) throw err;
-                            console.log("You now have " + chosenItem[0].stock_quantity + itemQuantity + " of " + chosenItem[0].product_name);
+                            console.log("You now have " + newQuantity + " of " + chosenItem[0].product_name);
                             startOver();
                         })
                 }
