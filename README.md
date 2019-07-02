@@ -21,7 +21,8 @@ In order to run the customer mode of the program, type "node bamazoncustomer.js"
 
 As a customer, you are able to select a product by ID and purchase it. Once you do this, the quantity in stock decreases.
 
-Check out the gif below to see how it works! 
+#### EXAMPLE
+![customer-view](images/customer-1-view.png) 
 
 ### Bamazon Manager Mode
 In order to run the customer mode of the program, type "node bamazonmanager.js" into the command line. You should see the menu mentioned above. Select what action you'd like to take as the manager (view all products, view the ones with an inventory less than 5, add to a product's inventory, add an entirely new product).

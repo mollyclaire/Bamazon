@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "",
+    password: "Pickles9)",
     database: "bamazon_db"
 });
 connection.connect(function (err) {
@@ -69,8 +69,8 @@ function askBuyer() {
                     if (err) throw err;
                     if (chosenItem[0].stock_quantity - itemQuantity >= 0) {
                         var total = itemQuantity * chosenItem[0].price;
-                        console.log('You will be charged $' + total + '. Thank you!');
-                        connection.query('UPDATE products SET stock_quantity=? WHERE item_id=?', [chosenItem[0].stock_quantity - itemQuantity, itemID],
+                        console.log("You will be charged $" + total + ". Thank you!");
+                        connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?", [chosenItem[0].stock_quantity - itemQuantity, itemID],
                             function (err) {
                                 if (err) throw err;
                                 startOver();
