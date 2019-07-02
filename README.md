@@ -30,15 +30,15 @@ As a customer, you are able to select a product by ID and purchase it. Once you 
 In order to run the customer mode of the program, type "node bamazonmanager.js" into the command line. You should see the menu mentioned above. Select what action you'd like to take as the manager (view all products, view the ones with an inventory less than 5, add to a product's inventory, add an entirely new product).
 
 #### EXAMPLE
-![manager-menu] (images/manager-1-view.png)
+![manager-menu](images/manager-1-view.png)
 
-![manager-table] (images.manager-2-view.png)
+![manager-table](images.manager-2-view.png)
 
-![manager-low] (manager-3-low)
+![manager-low](images.manager-3-low.png)
 
-![manager-add-inventory] (manager-4-inventory)
+![manager-add-inventory](images/manager-4-inventory.png)
 
-![manager-add-product] (manager-5-add)
+![manager-add-product](images/manager-5-add.png)
 
 
 ## Technology Used
